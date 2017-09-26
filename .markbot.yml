@@ -62,8 +62,23 @@ screenshots:
     before: |
       const sel = '.grid > .unit:nth-child(3) .hover-box';
 
-      on(sel, 'transitionend', () => {
-        done();
+      on(sel, 'transitionend', done);
+      $(sel).focus();
+
+functionality:
+  - path: 'index.html'
+    test: |
+      const box = $('.unit:nth-child(3) .hover-box');
+      const capt = $('.unit:nth-child(3) .hover-box-caption');
+      const img = $('.unit:nth-child(3) .hover-box-img');
+      const oldCaptBot = css(capt).bottom;
+      const oldImgTransform = css(img).transform;
+
+      on(box, 'transitionend', () => {
+        if (css(capt).bottom == oldCaptBot) return fail('The `bottom` coordinate of the `.hover-box-caption` doesn’t change when hovered');
+        if (css(img).transform == oldImgTransform) return fail('The `transform` property of the `.hover-box-img` doesn’t change when hovered');
+
+        pass();
       });
 
-      $(sel).focus();
+      hover(box);
