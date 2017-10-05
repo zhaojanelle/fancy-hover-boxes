@@ -6,7 +6,7 @@ html {
   color: #fff;
 }
 
-.hover-box: focus {
+.hover-box:focus {
   z-index: 10;
 }
 
